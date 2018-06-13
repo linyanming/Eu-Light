@@ -44,4 +44,5 @@ function EX_CMD.CHANNELID(tParams)
 	LogTrace(tParams)
 	local id = tonumber(tParams["CHID"])
 	gLightProxy:UpdateProperty(id)
+     
 end

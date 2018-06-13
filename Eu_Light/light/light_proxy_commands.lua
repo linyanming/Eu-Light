@@ -28,6 +28,7 @@ end
 function PRX_CMD.GET_CONNECTED_STATE(idBinding, tParams)
     LogTrace("PRX_CMD.GET_CONNECTED_STATE")
     LogTrace(tParams)
+    gLightProxy:prx_GET_CONNECTED_STATE()
 end
 
 function UI_REQ.GET_CONNECTED_STATE(tParams)

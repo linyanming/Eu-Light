@@ -3795,6 +3795,7 @@ function EX_CMD.CHANNELID(tParams)
 	LogTrace(tParams)
 	local id = tonumber(tParams["CHID"])
 	gLightProxy:UpdateProperty(id)
+     
 end
  end)
 package.preload['proxy_commands'] = (function (...)
@@ -4025,7 +4026,12 @@ function ON_DRIVER_INIT.proxy_init()
 end
 
 function ON_DRIVER_LATEINIT.proxy_init()
-	
+    local cmd = {CHANNEL = gLightProxy._Channel}
+    local devid = C4:GetDeviceID()
+    local id = C4:GetBoundProviderDevice(devid,CHANNEL_BINDING_ID) 
+    if(id ~= 0) then
+	   C4:SendToDevice(id,"REQLEVEL",cmd)
+    end
 end
 
 
@@ -4060,7 +4066,12 @@ end
 
 function LightProxy:UpdateProperty(channelid)
     C4:UpdateProperty("Channel",channelid)
-    gLightProxy._Channel = channelid
+    self._Channel = channelid
+    local cmd = {CHANNEL = self._Channel}
+    local devid = C4:GetDeviceID()
+    local id = C4:GetBoundProviderDevice(devid,CHANNEL_BINDING_ID) 
+    print("Id is " .. id)
+    C4:SendToDevice(id,"REQLEVEL",cmd)
 end
 
 --[[=============================================================================
@@ -4104,6 +4115,14 @@ function LightProxy:prx_BUTTON_ACTION(tParams)
 	   self:prx_TOGGLE({})
     end
     
+end
+
+function LightProxy:prx_GET_CONNECTED_STATE()
+    local cmd = {CHANNEL = self._Channel}
+    local devid = C4:GetDeviceID()
+    local id = C4:GetBoundProviderDevice(devid,CHANNEL_BINDING_ID) 
+    print("Id is " .. id)
+    C4:SendToDevice(id,"REQLEVEL",cmd)
 end end)
 package.preload['light.light_proxy_commands'] = (function (...)
 --[[=============================================================================
@@ -4136,6 +4155,7 @@ end
 function PRX_CMD.GET_CONNECTED_STATE(idBinding, tParams)
     LogTrace("PRX_CMD.GET_CONNECTED_STATE")
     LogTrace(tParams)
+    gLightProxy:prx_GET_CONNECTED_STATE()
 end
 
 function UI_REQ.GET_CONNECTED_STATE(tParams)

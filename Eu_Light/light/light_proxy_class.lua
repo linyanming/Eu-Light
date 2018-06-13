@@ -27,7 +27,12 @@ end
 
 function LightProxy:UpdateProperty(channelid)
     C4:UpdateProperty("Channel",channelid)
-    gLightProxy._Channel = channelid
+    self._Channel = channelid
+    local cmd = {CHANNEL = self._Channel}
+    local devid = C4:GetDeviceID()
+    local id = C4:GetBoundProviderDevice(devid,CHANNEL_BINDING_ID) 
+    print("Id is " .. id)
+    C4:SendToDevice(id,"REQLEVEL",cmd)
 end
 
 --[[=============================================================================
@@ -71,4 +76,12 @@ function LightProxy:prx_BUTTON_ACTION(tParams)
 	   self:prx_TOGGLE({})
     end
     
+end
+
+function LightProxy:prx_GET_CONNECTED_STATE()
+    local cmd = {CHANNEL = self._Channel}
+    local devid = C4:GetDeviceID()
+    local id = C4:GetBoundProviderDevice(devid,CHANNEL_BINDING_ID) 
+    print("Id is " .. id)
+    C4:SendToDevice(id,"REQLEVEL",cmd)
 end

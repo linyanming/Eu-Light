@@ -24,7 +24,12 @@ function ON_DRIVER_INIT.proxy_init()
 end
 
 function ON_DRIVER_LATEINIT.proxy_init()
-	
+    local cmd = {CHANNEL = gLightProxy._Channel}
+    local devid = C4:GetDeviceID()
+    local id = C4:GetBoundProviderDevice(devid,CHANNEL_BINDING_ID) 
+    if(id ~= 0) then
+	   C4:SendToDevice(id,"REQLEVEL",cmd)
+    end
 end
 
 
