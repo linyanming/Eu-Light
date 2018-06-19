@@ -8,11 +8,11 @@
   <name>Eu_Light</name>
   <model>Eu_Light</model>
   <created>05/24/2018 9:03 AM</created>
-  <modified>06/11/2018 3:39 PM</modified>
+  <modified>06/16/2018 5:00 PM</modified>
   <!-- 
 	Each time you modify the driver update the version number below.
 	-->
-  <version>12</version>
+  <version>18</version>
   <capabilities>
     <!-- 
 		These are the modes the camera might support.  If the camera does not support H264 then remove the H264 entries

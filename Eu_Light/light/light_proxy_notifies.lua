@@ -13,12 +13,14 @@ function NOTIFY.ON(bindingID)
      LogTrace("NOTIFY.ON")
 	print("bindingID = ".. bindingID) 
      SendNotify("LIGHT_LEVEL", 100, bindingID)
+	gLightProxy._LightStatus = true
 end
 
 function NOTIFY.OFF(bindingID)
      LogTrace("NOTIFY.OFF")
 	print("bindingID = ".. bindingID) 
      SendNotify("LIGHT_LEVEL", 0, bindingID)
+	gLightProxy._LightStatus = false
 end
 
 --[[

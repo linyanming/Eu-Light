@@ -22,20 +22,23 @@ function EX_CMD.LIGHTREPORT(tParams)
 	LogTrace("EX_CMD.LIGHTREPORT")
 	LogTrace(tParams)
      local level = tParams["LEVEL"]
-	print(type(level))
-    if(gLightProxy._Toggle == false) then
-	   if(level == "0") then
-		  NOTIFY.OFF(gLightProxy._BindingID)
-	   else
-		  NOTIFY.ON(gLightProxy._BindingID)
-	   end
+    if(level == "0") then
+	   NOTIFY.OFF(gLightProxy._BindingID)
     else
-	   if(level == "0") then
-		  gLightProxy:prx_ON({})
-	   else
-		  gLightProxy:prx_OFF({})
-	   end    
-	   gLightProxy._Toggle = false
+	   NOTIFY.ON(gLightProxy._BindingID)
+    end
+    if(gLightProxy._CmdSync == true) then
+	   if(TimerStarted(gLightProxy._CmdCnfTimer)) then
+		  KillTimer(gLightProxy._CmdCnfTimer)
+		  gLightProxy._MsgTable[gLightProxy._MsgSendPos] = ""
+		  if(gLightProxy._MsgSendPos == gLightProxy._MsgTableMax) then
+			 gLightProxy._MsgSendPos = 1
+		  else
+			 gLightProxy._MsgSendPos = gLightProxy._MsgSendPos + 1
+		  end
+		  
+	   end
+	   gLightProxy._CmdSync = false
     end
 end
 
