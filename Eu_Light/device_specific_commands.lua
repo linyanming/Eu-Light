@@ -30,12 +30,7 @@ function EX_CMD.LIGHTREPORT(tParams)
     if(gLightProxy._CmdSync == true) then
 	   if(TimerStarted(gLightProxy._CmdCnfTimer)) then
 		  KillTimer(gLightProxy._CmdCnfTimer)
-		  gLightProxy._MsgTable[gLightProxy._MsgSendPos] = ""
-		  if(gLightProxy._MsgSendPos == gLightProxy._MsgTableMax) then
-			 gLightProxy._MsgSendPos = 1
-		  else
-			 gLightProxy._MsgSendPos = gLightProxy._MsgSendPos + 1
-		  end
+		  gLightProxy._SendTable[gLightProxy._SendPos] = ""
 		  
 	   end
 	   gLightProxy._CmdSync = false

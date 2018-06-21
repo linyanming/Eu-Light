@@ -1,7 +1,6 @@
 ﻿<Driver type="c4z" name="light_template" squishLua="true" manualsquish="true">
  <Items>
   <Item type="dir" c4zDir="common" name="common" recurse="true" exclude="false" />
-  <Item type="dir" c4zDir="icons" name="icons" recurse="true" exclude="false" />
   <Item type="dir" c4zDir="lib" name="lib" recurse="true" exclude="false" />
   <Item type="dir" c4zDir="light" name="light" recurse="true" exclude="false" />
   <Item type="dir" c4zDir="www" name="www" recurse="true" exclude="false" />

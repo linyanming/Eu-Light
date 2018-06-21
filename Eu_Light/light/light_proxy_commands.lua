@@ -13,8 +13,8 @@ function PRX_CMD.ON(idBinding, tParams)
     if(TimerStarted(gLightProxy._Timer)) then
 	   gLightProxy:AddToQueue("ON")
     else
-	   gLightProxy:AddToQueue("ON")
-	   gLightProxy:SendCommandToDeivce(gLightProxy._MsgTable[gLightProxy._MsgSendPos])
+	   gLightProxy._SendTable[gLightProxy._SendPos] = "ON"
+	   gLightProxy:SendCommandToDeivce(gLightProxy._SendTable[gLightProxy._SendPos])
 	   StartTimer(gLightProxy._Timer)
 	   gLightProxy._CmdSync = true
 	   StartTimer(gLightProxy._CmdCnfTimer)
@@ -25,8 +25,8 @@ function PRX_CMD.OFF(idBinding, tParams)
     if(TimerStarted(gLightProxy._Timer)) then
 	   gLightProxy:AddToQueue("OFF")
     else
-	   gLightProxy:AddToQueue("OFF")
-	   gLightProxy:SendCommandToDeivce(gLightProxy._MsgTable[gLightProxy._MsgSendPos])
+	   gLightProxy._SendTable[gLightProxy._SendPos] = "OFF"
+	   gLightProxy:SendCommandToDeivce(gLightProxy._SendTable[gLightProxy._SendPos])
 	   StartTimer(gLightProxy._Timer)
 	   gLightProxy._CmdSync = true
 	   StartTimer(gLightProxy._CmdCnfTimer)
@@ -37,8 +37,8 @@ function PRX_CMD.TOGGLE(idBinding, tParams)
     if(TimerStarted(gLightProxy._Timer)) then
 	   gLightProxy:AddToQueue("TOGGLE")
     else
-	   gLightProxy:AddToQueue("TOGGLE")
-	   gLightProxy:SendCommandToDeivce(gLightProxy._MsgTable[gLightProxy._MsgSendPos])
+	   gLightProxy._SendTable[gLightProxy._SendPos] = "TOGGLE"
+	   gLightProxy:SendCommandToDeivce(gLightProxy._SendTable[gLightProxy._SendPos])
 	   StartTimer(gLightProxy._Timer)
 	   gLightProxy._CmdSync = true
 	   StartTimer(gLightProxy._CmdCnfTimer)

@@ -25,9 +25,9 @@ function LightProxy:Initialize()
 --    self._Toggle = false
     self._LightStatus = false
     self._MsgTable = {}
+    self._SendTable = {}
     self._MsgPos = 1
-    self._MsgSendPos = 1
-    self._MsgTableMax = 100
+    self._SendPos = 1
     self._CmdSync = false
     self._Timer = CreateTimer("SEND_DATA", 600, "MILLISECONDS", TimerCallback, true, nil)
     self._CmdCnfTimer = CreateTimer("CMD_CONFIRM", 3, "SECONDS", CmdCnfTimerCallback, false, nil)
@@ -36,20 +36,17 @@ end
 
 function CmdCnfTimerCallback()
     LogTrace("confirm fail")
-    gLightProxy:SendCommandToDeivce(gLightProxy._MsgTable[gLightProxy._MsgSendPos])
-    gLightProxy._MsgTable[gLightProxy._MsgSendPos] = ""
-    if(gLightProxy._MsgSendPos == gLightProxy._MsgTableMax) then
-	   gLightProxy._MsgSendPos = 1
-    else
-	   gLightProxy._MsgSendPos = gLightProxy._MsgSendPos + 1
-    end
+    gLightProxy:SendCommandToDeivce(gLightProxy._SendTable[gLightProxy._SendPos])
+    gLightProxy._SendTable[gLightProxy._SendPos] = ""
     gLightProxy._CmdSync = false
 end
 
 function TimerCallback()
  --    LogTrace("TimerCallback")
-	if(gLightProxy._MsgTable[gLightProxy._MsgSendPos] ~= nil and gLightProxy._MsgTable[gLightProxy._MsgSendPos] ~= "" and gLightProxy._CmdSync ~= true) then
-	    gLightProxy:SendCommandToDeivce(gLightProxy._MsgTable[gLightProxy._MsgSendPos])
+	if(gLightProxy._MsgTable[gLightProxy._MsgPos] ~= nil and gLightProxy._MsgTable[gLightProxy._MsgPos] ~= "" and gLightProxy._CmdSync ~= true) then
+	    gLightProxy._SendTable[gLightProxy._SendPos] = gLightProxy._MsgTable[gLightProxy._MsgPos]
+	    gLightProxy:SendCommandToDeivce(gLightProxy._SendTable[gLightProxy._SendPos])
+	    gLightProxy._MsgTable[gLightProxy._MsgPos] = ""
 	    gLightProxy._CmdSync = true
 	    StartTimer(gLightProxy._CmdCnfTimer)
      else
@@ -72,11 +69,6 @@ end
 function LightProxy:AddToQueue(command)
     LogTrace("LightProxy:AddToQueue")
     self._MsgTable[self._MsgPos] = command
-    if(self._MsgPos == self._MsgTableMax) then
-	   self._MsgPos = 1
-    else
-	   self._MsgPos = self._MsgPos + 1
-    end
 end
 
 function LightProxy:UpdateProperty(channelid)
