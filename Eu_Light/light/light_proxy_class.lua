@@ -30,7 +30,7 @@ function LightProxy:Initialize()
     self._MsgTableMax = 100
     self._CmdSync = false
     self._Timer = CreateTimer("SEND_DATA", 600, "MILLISECONDS", TimerCallback, true, nil)
-    self._CmdCnfTimer = CreateTimer("CMD_CONFIRM", 600, "MILLISECONDS", CmdCnfTimerCallback, false, nil)
+    self._CmdCnfTimer = CreateTimer("CMD_CONFIRM", 3, "SECONDS", CmdCnfTimerCallback, false, nil)
 
 end
 
@@ -93,11 +93,11 @@ end
     LightProxy Proxy Commands(PRX_CMD)
 ===============================================================================]]
 function LightProxy:prx_ON(tParams)
+    LogTrace("LightProxy:prx_ON")
     tParams = tParams or {}
     local cmd = {CHANNEL = self._Channel,LEVEL = 100}
     local devid = C4:GetDeviceID()
     local id = C4:GetBoundProviderDevice(devid,CHANNEL_BINDING_ID) 
-    print("Id is " .. id)
     C4:SendToDevice(id,"SETLEVEL",cmd)
     C4:SendToDevice(id,"REQLEVEL",cmd)
 
@@ -105,11 +105,11 @@ function LightProxy:prx_ON(tParams)
 end
 
 function LightProxy:prx_OFF(tParams)
+    LogTrace("LightProxy:prx_OFF")
     tParams = tParams or {}
     local cmd = {CHANNEL = self._Channel,LEVEL = 0}
     local devid = C4:GetDeviceID()
     local id = C4:GetBoundProviderDevice(devid,CHANNEL_BINDING_ID)
-    print("Id is " .. id)
     C4:SendToDevice(id,"SETLEVEL",cmd)
     C4:SendToDevice(id,"REQLEVEL",cmd)
 end
