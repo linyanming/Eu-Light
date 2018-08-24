@@ -1,4 +1,4 @@
-﻿<Driver type="c4z" name="light_template" squishLua="true" manualsquish="true">
+﻿<Driver type="c4z" name="Eu_Light" squishLua="true" manualsquish="true">
  <Items>
   <Item type="dir" c4zDir="common" name="common" recurse="true" exclude="false" />
   <Item type="dir" c4zDir="lib" name="lib" recurse="true" exclude="false" />
