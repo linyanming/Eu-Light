@@ -29,6 +29,8 @@ function LightProxy:Initialize()
     self._MsgPos = 1
     self._SendPos = 1
     self._CmdSync = false
+    self._DeviceStatus = false
+    
     self._Timer = CreateTimer("SEND_DATA", 600, "MILLISECONDS", TimerCallback, true, nil)
     self._CmdCnfTimer = CreateTimer("CMD_CONFIRM", 3, "SECONDS", CmdCnfTimerCallback, false, nil)
 
@@ -39,6 +41,9 @@ function CmdCnfTimerCallback()
     gLightProxy:SendCommandToDeivce(gLightProxy._SendTable[gLightProxy._SendPos])
     gLightProxy._SendTable[gLightProxy._SendPos] = ""
     gLightProxy._CmdSync = false
+--    if(gLightProxy._DeviceStatus == true) then
+    NOTIFY.OFFLINE(gLightProxy._BindingID)
+--    end
 end
 
 function TimerCallback()

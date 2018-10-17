@@ -8,11 +8,11 @@
   <name>Eu_Light</name>
   <model>Eu_Light</model>
   <created>05/24/2018 9:03 AM</created>
-  <modified>08/22/2018 1:47 PM</modified>
+  <modified>10/17/2018 2:32 PM</modified>
   <!-- 
 	Each time you modify the driver update the version number below.
 	-->
-  <version>23</version>
+  <version>38</version>
   <capabilities>
     <!-- 
 		These are the modes the camera might support.  If the camera does not support H264 then remove the H264 entries
@@ -42,11 +42,20 @@
 		-->
     <on_off>True</on_off>
     <buttons_are_virtual>True</buttons_are_virtual>
-    <has_button_events>True</has_button_events>
-    <min_max>True</min_max>
+    <has_button_events>False</has_button_events>
+    <min_max>False</min_max>
     <hide_proxy_events>False</hide_proxy_events>
     <set_level>False</set_level>
     <advanced_scene_support>True</advanced_scene_support>
+    <supports_broadcast_scenes>False</supports_broadcast_scenes>
+    <reduced_als_support>False</reduced_als_support>
+    <ramp_level>False</ramp_level>
+    <click_rates>False</click_rates>
+    <hold_rate>False</hold_rate>
+    <cold_rate>False</cold_rate>
+    <has_leds>False</has_leds>
+    <hide_proxy_properties>False</hide_proxy_properties>
+    <load_group_support>True</load_group_support>
   </capabilities>
   <small>devices_sm\ThreeButtonKeypad.GIF</small>
   <large>devices_lg\camera_lg.gif</large>

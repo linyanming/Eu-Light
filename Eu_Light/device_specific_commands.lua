@@ -27,6 +27,9 @@ function EX_CMD.LIGHTREPORT(tParams)
     else
 	   NOTIFY.ON(gLightProxy._BindingID)
     end
+--    if(gLightProxy._DeviceStatus == false) then
+        NOTIFY.ONLINE(gLightProxy._BindingID)
+--    end
     if(gLightProxy._CmdSync == true) then
 	   if(TimerStarted(gLightProxy._CmdCnfTimer)) then
 		  KillTimer(gLightProxy._CmdCnfTimer)
@@ -38,7 +41,7 @@ function EX_CMD.LIGHTREPORT(tParams)
 end
 
 function EX_CMD.CHANNELID(tParams)
-    	LogTrace("EX_CMD.LIGHTREPORT")
+    LogTrace("EX_CMD.LIGHTREPORT")
 	LogTrace(tParams)
 	local id = tonumber(tParams["CHID"])
 	gLightProxy:UpdateProperty(id)

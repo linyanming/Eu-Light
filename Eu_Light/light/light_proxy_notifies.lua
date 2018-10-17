@@ -23,6 +23,21 @@ function NOTIFY.OFF(bindingID)
 	gLightProxy._LightStatus = false
 end
 
+function NOTIFY.ONLINE(bindingID)
+     LogTrace("NOTIFY.ONLINE")
+	print("bindingID = ".. bindingID) 
+     SendNotify("ONLINE_CHANGED", {STATE = "True"}, bindingID)
+     gLightProxy._DeviceStatus = true
+end
+
+function NOTIFY.OFFLINE(bindingID)
+     LogTrace("NOTIFY.OFFLINE")
+	print("bindingID = ".. bindingID) 
+     SendNotify("ONLINE_CHANGED", {STATE = "False"}, bindingID)
+     gLightProxy._DeviceStatus = false
+end
+
+
 --[[
 function NOTIFY.PROPERTY_DEFAULTS(bindingID, tPropertyDefaults)
 	LogTrace("NOTIFY.PROPERTY_DEFAULTS")

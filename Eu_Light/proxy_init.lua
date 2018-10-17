@@ -16,12 +16,14 @@ end
 
 function ON_DRIVER_EARLY_INIT.proxy_init()
 	-- declare and initialize global variables
-	C4:AllowExecute(false)
+	C4:AllowExecute(true)
+	
 end
 
 function ON_DRIVER_INIT.proxy_init()
 
 	gLightProxy = LightProxy:new(DEFAULT_PROXY_BINDINGID)
+	gScenes = {}
 end
 
 function ON_DRIVER_LATEINIT.proxy_init()

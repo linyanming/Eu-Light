@@ -55,10 +55,112 @@ function PRX_CMD.GET_CONNECTED_STATE(idBinding, tParams)
     gLightProxy:prx_GET_CONNECTED_STATE()
 end
 
+function PRX_CMD.GET_LIGHT_LEVEL(idBinding, tParams)
+    LogTrace("PRX_CMD.GET_LIGHT_LEVEL")
+    LogTrace(tParams)
+    if(gLightProxy._LightStatus) then
+        NOTIFY.ON(gLightProxy._BindingID)
+    else
+        NOTIFY.OFF(gLightProxy._BindingID)
+    end
+end
+
+
+function PRX_CMD.ACTIVATE_SCENE(idBinding, tParams)
+    LogTrace("PRX_CMD.ACTIVATE_SCENE")
+    LogTrace(tParams)
+    local SCENE_ID = tonumber(tParams["SCENE_ID"]) or -1
+    if (SCENE_ID == -1) then return end
+    local scene = gScenes[SCENE_ID] or {}
+    local elements = scene.ELEMENTS or ""
+    if (scene.PARSED_ELEMENTS == nil) then
+        if (elements == "") then return end
+        local pe = {}
+        for element in elements:gfind("<element>(.-)</element>") do
+            local _, _, strDelay = element:find("<delay>(.-)</delay>")
+            local _, _, strRate  = element:find("<rate>(.-)</rate>")
+            local _, _, strLevel = element:find("<level>(.-)</level>")
+            table.insert(pe, {delay = tonumber(strDelay) or 0, rate = tonumber(strRate) or 0, level = tonumber(strLevel) or 0})
+        end
+        scene.PARSED_ELEMENTS = pe
+    end
+    C4:InvalidateState()
+    local delay = 0
+    for k,v in ipairs(scene.PARSED_ELEMENTS) do
+        print("Element: delay: " .. v.delay .. " level: " .. v.level)
+        delay = delay + v.delay or 0
+        if(delay == 0) then
+            if(v.level == 0) then
+                PRX_CMD.OFF(gLightProxy._BindingID,{})
+            else
+                PRX_CMD.ON(gLightProxy._BindingID,{})
+            end
+        else
+            C4:SetTimer(delay, function() 
+                if(v.level == 0) then
+                    PRX_CMD.OFF(gLightProxy._BindingID,{})
+                else
+                    PRX_CMD.ON(gLightProxy._BindingID,{})
+                end
+            end)
+        end
+    end 
+end
+
+function PRX_CMD.PUSH_SCENE(idBinding, tParams)
+    LogTrace("PRX_CMD.PUSH_SCENE")
+    LogTrace(tParams)
+    local SCENE_ID = tonumber(tParams["SCENE_ID"])
+    gScenes[SCENE_ID] = tParams
+    C4:InvalidateState()
+end
+
+function PRX_CMD.REMOVE_SCENE(idBinding, tParams)
+    LogTrace("PRX_CMD.REMOVE_SCENE")
+    LogTrace(tParams)
+    local SCENE_ID = tonumber(tParams["SCENE_ID"]) or -1
+    gScenes[SCENE_ID] = nil
+    C4:InvalidateState()
+end
+
+function PRX_CMD.ALL_SCENES_PUSHED(idBinding, tParams)
+    LogTrace("PRX_CMD.ALL_SCENES_PUSHED")
+    LogTrace(tParams)
+    C4:InvalidateState()
+end
+
+function PRX_CMD.RAMP_SCENE_DOWN(idBinding, tParams)
+    LogTrace("PRX_CMD.RAMP_SCENE_DOWN")
+    LogTrace(tParams)
+    
+end
+
+function PRX_CMD.RAMP_SCENE_UP(idBinding, tParams)
+    LogTrace("PRX_CMD.RAMP_SCENE_UP")
+    LogTrace(tParams)
+    
+end
+
+function PRX_CMD.STOP_RAMP_SCENE(idBinding, tParams)
+    LogTrace("PRX_CMD.STOP_RAMP_SCENE")
+    LogTrace(tParams)
+    
+end
+
+
+function PRX_CMD.CLEAR_ALL_SCENES(idBinding, tParams)
+    LogTrace("PRX_CMD.CLEAR_ALL_SCENES")
+    LogTrace(tParams)
+    gScenes = {}
+    C4:InvalidateState()
+end
+
+
 function UI_REQ.GET_CONNECTED_STATE(tParams)
-     LogTrace("UI_REQ.GET_CONNECTED_STATE")
+    LogTrace("UI_REQ.GET_CONNECTED_STATE")
 	LogTrace(tParams)
-	return "<ONLINE_CHANGE>true</ONLINE_CHANGED>"
+	C4:SendDataToUI("<ONLINE_CHANGED>true</ONLINE_CHANGED>")
+--	return "<ONLINE_CHANGE>true</ONLINE_CHANGED>"
 end
 
 --[[
